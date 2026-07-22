@@ -1,0 +1,13 @@
+editor.insertSpaces=true
+editor.tabSize=4
+editor.detectIndentation=false
+[*]
+indent_style=space
+indent_size=4
+tab_width=4
+end_of_line=lf
+insert_final_newline=true
+trim_trailing_whitespace=true
+[*.{ts,tsx,js,jsx,scss,css,json,yml,yaml,md}]
+indent_style=space
+indent_size=4

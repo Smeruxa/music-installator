@@ -1,0 +1,25 @@
+.list {
+    height: 100%;
+    overflow: auto;
+    padding: 8px 12px 96px;
+}
+
+.listCompact {
+    padding-bottom: 12px;
+}
+
+.dragging {
+    user-select: none;
+    cursor: default;
+}
+
+.spacer {
+    width: 100%;
+    position: relative;
+}
+
+.item {
+    position: absolute;
+    left: 0;
+    width: 100%;
+}

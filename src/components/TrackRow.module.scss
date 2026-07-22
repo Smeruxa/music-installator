@@ -1,0 +1,55 @@
+.row {
+    height: var(--row-h);
+    display: grid;
+    grid-template-columns: 28px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 0 12px;
+    border-radius: 12px;
+    transition: background var(--ease);
+
+    &:hover,
+    &.playing {
+        background: rgba(255, 255, 255, 0.72);
+    }
+
+    &.playing {
+        box-shadow: inset 3px 0 0 var(--accent);
+    }
+}
+
+.checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.texts {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.title {
+    font-weight: 650;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.artist {
+    color: var(--muted);
+    font-size: 0.82rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.duration {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.8rem;
+}
