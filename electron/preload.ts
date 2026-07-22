@@ -44,8 +44,9 @@ const api = {
     download: {
         start: (
             payload: DownloadStartPayload
-        ): Promise<{ ok: true } | { ok: false; error: string }> =>
+        ): Promise<{ ok: true } | { ok: false; error: string; cancelled?: boolean }> =>
             ipcRenderer.invoke('download:start', payload),
+        cancel: (): Promise<{ ok: true }> => ipcRenderer.invoke('download:cancel'),
         onProgress: (cb: (progress: DownloadProgress) => void): (() => void) => {
             const listener = (_event: IpcRendererEvent, progress: DownloadProgress): void => {
                 cb(progress)
@@ -55,10 +56,22 @@ const api = {
                 ipcRenderer.removeListener('download:progress', listener)
             }
         },
-        onDone: (cb: (result: { completed: number; total: number }) => void): (() => void) => {
+        onDone: (
+            cb: (result: {
+                completed: number
+                total: number
+                failed?: number
+                cancelled?: boolean
+            }) => void
+        ): (() => void) => {
             const listener = (
                 _event: IpcRendererEvent,
-                result: { completed: number; total: number }
+                result: {
+                    completed: number
+                    total: number
+                    failed?: number
+                    cancelled?: boolean
+                }
             ): void => {
                 cb(result)
             }

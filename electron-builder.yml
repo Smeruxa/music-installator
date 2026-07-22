@@ -1,5 +1,6 @@
 appId: com.musicinstallator.app
 productName: VK Music Installer
+executableName: VKMusicInstaller
 directories:
   output: release
   buildResources: build
@@ -10,19 +11,26 @@ files:
   - '!**/{src,electron,design-system,.cursor}/**'
   - '!**/*.{md,map}'
   - '!**/node_modules/*/{CHANGELOG.md,README.md,readme.md}'
-asarUnpack:
-  - '**/node_modules/ffmpeg-static/**'
+  - '!node_modules/ffmpeg-static/ffmpeg'
+  - '!node_modules/ffmpeg-static/ffmpeg.exe'
 mac:
   target:
     - dmg
   category: public.app-category.music
   artifactName: ${productName}-${version}-${arch}.${ext}
+  extraResources:
+    - from: node_modules/ffmpeg-static/ffmpeg
+      to: ffmpeg
 win:
   target:
     - target: nsis
       arch:
         - x64
   artifactName: ${productName}-${version}-setup.${ext}
+  extraResources:
+    - from: node_modules/ffmpeg-static/ffmpeg.exe
+      to: ffmpeg.exe
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
+  include: build/installer.nsh

@@ -42,7 +42,8 @@ export const LibraryScreen = observer(function LibraryScreen(): JSX.Element {
         completed: downloadCompleted,
         total: downloadTotal,
         lastError: downloadError,
-        start: startDownload
+        start: startDownload,
+        cancel: cancelDownload
     } = downloadStore
 
     useEffect(() => {
@@ -168,11 +169,18 @@ export const LibraryScreen = observer(function LibraryScreen(): JSX.Element {
 
             {(downloadActive || downloadError) && (
                 <div className={styles.banner}>
-                    {downloadActive
-                        ? `Установка ${downloadCompleted} / ${downloadTotal}`
-                        : downloadError
-                          ? `Ошибка: ${downloadError}`
-                          : null}
+                    <span>
+                        {downloadActive
+                            ? `Установка ${downloadCompleted} / ${downloadTotal}`
+                            : downloadError
+                              ? `Ошибка: ${downloadError}`
+                              : null}
+                    </span>
+                    {downloadActive && (
+                        <Button variant="ghost" onClick={() => void cancelDownload()}>
+                            Отменить
+                        </Button>
+                    )}
                 </div>
             )}
 

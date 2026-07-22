@@ -118,6 +118,10 @@
 }
 
 .banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
     margin: 0 22px 8px;
     padding: 10px 14px;
     border-radius: 10px;

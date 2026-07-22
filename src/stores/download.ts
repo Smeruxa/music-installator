@@ -34,9 +34,12 @@ class DownloadStore {
             })
         })
 
-        const unsubDone = window.api.download.onDone(() => {
+        const unsubDone = window.api.download.onDone((result) => {
             runInAction(() => {
                 this.active = false
+                if (result.cancelled) {
+                    this.lastError = null
+                }
             })
         })
 
@@ -45,7 +48,7 @@ class DownloadStore {
             if (!result.ok) {
                 runInAction(() => {
                     this.active = false
-                    this.lastError = result.error
+                    this.lastError = result.cancelled ? null : result.error
                 })
             }
         } finally {
@@ -55,6 +58,13 @@ class DownloadStore {
                 this.active = false
             })
         }
+    }
+
+    async cancel(): Promise<void> {
+        if (!this.active) {
+            return
+        }
+        await window.api.download.cancel()
     }
 
     reset(): void {

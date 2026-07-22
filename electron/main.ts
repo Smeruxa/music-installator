@@ -1,4 +1,4 @@
-import { app, BrowserWindow, dialog, ipcMain, shell } from 'electron'
+import { app, BrowserWindow, dialog, ipcMain, Menu, shell } from 'electron'
 import { join } from 'node:path'
 import { loginWithKate, loginWithToken } from './services/vk-auth'
 import { refreshWebSession } from './services/vk-web-auth'
@@ -202,7 +202,7 @@ function registerIpc(): void {
         async (
             _event,
             payload: DownloadStartPayload
-        ): Promise<{ ok: true } | { ok: false; error: string }> => {
+        ): Promise<{ ok: true } | { ok: false; error: string; cancelled?: boolean }> => {
             if (!session) {
                 return { ok: false, error: 'Не авторизован' }
             }
@@ -215,12 +215,17 @@ function registerIpc(): void {
             return downloadService.start(session, tracksCache, payload.trackKeys, payload.directory)
         }
     )
+
+    ipcMain.handle('download:cancel', (): { ok: true } => {
+        return downloadService.cancel()
+    })
 }
 
 app.whenReady().then(() => {
     if (process.platform === 'win32') {
         app.setAppUserModelId('com.musicinstallator.app')
     }
+    Menu.setApplicationMenu(null)
 
     const existing = loadSession()
     if (existing !== null && existing.client !== 'web') {
